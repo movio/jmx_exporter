@@ -9,7 +9,7 @@
 
   <groupId>io.prometheus.jmx</groupId>
   <artifactId>collector</artifactId>
-  <version>0.7.0-SNAPSHOT</version>
+  <version>0.7.1-SNAPSHOT</version>
   <description>
     See https://github.com/prometheus/jmx_exporter/blob/master/README.md
   </description>

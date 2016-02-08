@@ -310,7 +310,13 @@ public class JmxCollector extends Collector {
       String errorMetric = "jmx_scrape_error" + suffix;
       samples.add(new MetricFamilySamples.Sample(errorMetric, new ArrayList<String>(), new ArrayList<String>(), error));
       mfsList.add(new MetricFamilySamples(errorMetric, Type.GAUGE, "Non-zero if this scrape failed.", samples));
-      return mfsList;
+
+      List<MetricFamilySamples> finalMetrics = new ArrayList<MetricFamilySamples>();
+      for (MetricFamilySamples metric : mfsList) {
+          finalMetrics.add(new MetricFamilySamples(metric.name, metric.type, metric.help + suffix, metric.samples));
+      }
+
+      return finalMetrics;
     }
 
     /**
