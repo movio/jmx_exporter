@@ -311,12 +311,7 @@ public class JmxCollector extends Collector {
       samples.add(new MetricFamilySamples.Sample(errorMetric, new ArrayList<String>(), new ArrayList<String>(), error));
       mfsList.add(new MetricFamilySamples(errorMetric, Type.GAUGE, "Non-zero if this scrape failed.", samples));
 
-      List<MetricFamilySamples> finalMetrics = new ArrayList<MetricFamilySamples>();
-      for (MetricFamilySamples metric : mfsList) {
-          finalMetrics.add(new MetricFamilySamples(metric.name, metric.type, suffix + "_" + metric.help, metric.samples));
-      }
-
-      return finalMetrics;
+      return mfsList;
     }
 
     /**
