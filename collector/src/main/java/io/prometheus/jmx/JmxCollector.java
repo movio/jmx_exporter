@@ -313,7 +313,7 @@ public class JmxCollector extends Collector {
 
       List<MetricFamilySamples> finalMetrics = new ArrayList<MetricFamilySamples>();
       for (MetricFamilySamples metric : mfsList) {
-          finalMetrics.add(new MetricFamilySamples(metric.name, metric.type, metric.help + suffix, metric.samples));
+          finalMetrics.add(new MetricFamilySamples(metric.name, metric.type, suffix + "_" + metric.help, metric.samples));
       }
 
       return finalMetrics;
