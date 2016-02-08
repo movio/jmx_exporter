@@ -103,7 +103,7 @@ public class WebServer {
             /* See https://docs.google.com/a/boxever.com/document/d/1ZjyKiKxZV83VI9ZKAXRGKaUKK2BIWCT7oiGBKDBpjEY/edit#
              * for the output format specification. */
             for (Collector.MetricFamilySamples metricFamilySamples: Collections.list(mfs)) {
-              writer.write("# HELP " + UUID.randomUUID() + "_" + metricFamilySamples.name + " " + escapeHelp(metricFamilySamples.help) + "\n");
+              writer.write("# HELP " + UUID.randomUUID().toString().replaceAll("-", "_") + "_" + metricFamilySamples.name + " " + escapeHelp(metricFamilySamples.help) + "\n");
               writer.write("# TYPE " + metricFamilySamples.name + " " + typeString(metricFamilySamples.type) + "\n");
               for (Collector.MetricFamilySamples.Sample sample: metricFamilySamples.samples) {
                 writer.write(sample.name);
