@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Random;
 
 import io.prometheus.client.Collector;
 import io.prometheus.client.exporter.common.TextFormat;
@@ -64,6 +65,8 @@ public class WebServer {
      server.setHandler(context);
      context.addServlet(new ServletHolder(new MetricsServlet(registry) {
 
+        private final Random random = new Random();
+
         @Override
         protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
@@ -99,11 +102,21 @@ public class WebServer {
           }
         }
 
+       String generateString() {
+            String characters = "abcdefghijklmnop";
+            int length = 8;
+            char[] text = new char[length];
+            for (int i = 0; i < length; i++) {
+                text[i] = characters.charAt(random.nextInt(characters.length()));
+            }
+            return new String(text);
+        }
+
         public void write005(Writer writer, Enumeration<Collector.MetricFamilySamples> mfs) throws IOException {
             /* See https://docs.google.com/a/boxever.com/document/d/1ZjyKiKxZV83VI9ZKAXRGKaUKK2BIWCT7oiGBKDBpjEY/edit#
              * for the output format specification. */
             for (Collector.MetricFamilySamples metricFamilySamples: Collections.list(mfs)) {
-              writer.write("# HELP " + UUID.randomUUID().toString().replaceAll("-", "_") + "_" + metricFamilySamples.name + " " + escapeHelp(metricFamilySamples.help) + "\n");
+              writer.write("# HELP " + generateString() + "_" + metricFamilySamples.name + " " + escapeHelp(metricFamilySamples.help) + "\n");
               writer.write("# TYPE " + metricFamilySamples.name + " " + typeString(metricFamilySamples.type) + "\n");
               for (Collector.MetricFamilySamples.Sample sample: metricFamilySamples.samples) {
                 writer.write(sample.name);
