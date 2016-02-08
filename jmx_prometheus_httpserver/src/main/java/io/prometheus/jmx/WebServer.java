@@ -116,8 +116,9 @@ public class WebServer {
             /* See https://docs.google.com/a/boxever.com/document/d/1ZjyKiKxZV83VI9ZKAXRGKaUKK2BIWCT7oiGBKDBpjEY/edit#
              * for the output format specification. */
             for (Collector.MetricFamilySamples metricFamilySamples: Collections.list(mfs)) {
-              writer.write("# HELP " + generateString() + "_" + metricFamilySamples.name + " " + escapeHelp(metricFamilySamples.help) + "\n");
-              writer.write("# TYPE " + metricFamilySamples.name + " " + typeString(metricFamilySamples.type) + "\n");
+              String random = generateString();
+              writer.write("# HELP " + random + "_" + metricFamilySamples.name + " " + escapeHelp(metricFamilySamples.help) + "\n");
+              writer.write("# TYPE " + random + "_" + metricFamilySamples.name + " " + typeString(metricFamilySamples.type) + "\n");
               for (Collector.MetricFamilySamples.Sample sample: metricFamilySamples.samples) {
                 writer.write(sample.name);
                 if (sample.labelNames.size() > 0) {
